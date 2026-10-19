@@ -87,13 +87,13 @@ Repository for my wireless-temperature-and-humidity logger project. Code for tra
 - ***Note:*** The solder blobs you would see here were intentionally done for better contact.
 ![Wirings of RX device.](/hardware/rx-dev-wirings.jpg)
 
-**<u>Initial Status:<u>**
+**<u>Initial Status: No mail.<u>**
 ![This is initial status at boot.](/demo/images/rx_device_images/rx-no-mail-demo.jpg)
 
-**<u>Updated Status: New Mail arrived!<u>**
+**<u>Updated Status: New mail arrived!<u>**
 ![This is the demo when new mail arrives.](/demo/images/rx_device_images/rx-new-mail-demo.jpg)
 
-**<u>Updated Status: New Mail arrived!<u>**
+**<u>Updated Status: Old and possibly new mail inside the mailbox!<u>**
 ![This is the demo when old and possibly new mail is inside the mailbox.](/demo/images/rx_device_images/rx-old-new-demo.jpg)
 
 
