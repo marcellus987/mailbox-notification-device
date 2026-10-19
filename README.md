@@ -81,34 +81,34 @@ Repository for my wireless-temperature-and-humidity logger project. Code for tra
 
 **<u>Components:<u>**
 - STM32F411CEU (blackpill), RYLR689 LoRa module, SD card module, DS3231 RTC module, OLED SH1106 module, Power supply, 9v Battery.
-![Components used in this project.](/demo/images/rx_device_images/rx-init-status-full.jpg)
+![Components used for RX device in this project.](/demo/images/rx_device_images/rx-setup.jpg)
 
 **<u>Wirings:<u>**
 - ***Note:*** The solder blobs you would see here were intentionally done for better contact.
-![Components used in this project.](/hardware/rx-dev-wirings.jpg)
+![Wirings of RX device.](/hardware/rx-dev-wirings.jpg)
 
 **<u>Initial Status:<u>**
-![Components used in this project.](/demo/images/rx_device_images/rx-init-status-close-up.jpg)
+![This is initial status at boot.](/demo/images/rx_device_images/rx-no-mail-demo.jpg)
 
-**<u>Updated Status:<u>**
-![Components used in this project.](/demo/images/rx_device_images/rx-updated-status-close-up.jpg)
+**<u>Updated Status: New Mail arrived!<u>**
+![This is the demo when new mail arrives.](/demo/images/rx_device_images/rx-new-mail-demo.jpg)
+
+**<u>Updated Status: New Mail arrived!<u>**
+![This is the demo when old and possibly new mail is inside the mailbox.](/demo/images/rx_device_images/rx-old-new-demo.jpg)
+
 
 ### TX side Image(s):
 
 **<u>Components:<u>**
-- STM32F411CEU (blackpill), RYLR689 LoRa module, SD card module, IR transmitter-receiver (Not shown, TBU), Reed switch (Normally open. Not shown, TBU).
-![Components used in this project.](/demo/images/tx_device_images/tx-device.jpg)
+- STM32F411CEU (blackpill), RYLR689 LoRa module, SD card module, IR transmitter-receiver, Reed switch (Normally open).
+![Components for TX device used in this project.](/demo/images/tx_device_images/tx_setup.jpg)
 
 **<u>Wirings:<u>**
 - ***Note:*** The solder blobs you would see here were intentionally done for better contact.
-![Components used in this project.](/hardware/tx-dev-wirings.jpg)
+![Wirings of TX device.](/hardware/tx-dev-wirings.jpg)
 
-**<u>Side-view:<u>**
-![Components used in this project.](/demo/images/tx_device_images/tx-close-up-side-view.jpg)
-
-**<u>Powered-On Status:<u>**
-![Components used in this project.](/demo/images/tx_device_images/tx-close-up-top-view-on.jpg)
-
+**<u>IR-sensor and Reed switch:<u>**
+![Close-up image of the IR sensor used in this project.](/demo/images/tx_device_images/tx_ir_sensor_close_up_md.jpg)
 
 ### Video(s):
 - **TBU**: I will post a simple demonstration video here.
