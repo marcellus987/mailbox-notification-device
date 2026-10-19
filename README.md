@@ -101,6 +101,7 @@ Repository for my wireless-temperature-and-humidity logger project. Code for tra
 
 **<u>Components:<u>**
 - STM32F411CEU (blackpill), RYLR689 LoRa module, SD card module, IR transmitter-receiver, Reed switch (Normally open).
+- When deployed in an actual Mailbox, the IR sensor will be placed on the sides of the mailbox while the Reed switch will be placed on the mailbox lid to detect when it opens.
 ![Components for TX device used in this project.](/demo/images/tx_device_images/tx_setup.jpg)
 
 **<u>Wirings:<u>**
