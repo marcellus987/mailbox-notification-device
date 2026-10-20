@@ -36,8 +36,9 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-#define DEBUG_MODE__
+//#define DEBUG_MODE__
 #define WAIT_FOR_ACTION_DURATION (3U) /* 5 seconds. */
+#define MAILBOX_RXTX_MAGIC_NUMBER 0xDEADBEEFU
 
 
 /* USER CODE END PD */
@@ -116,16 +117,16 @@ int main(void)
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-  uint8_t status;
+  uint8_t status[256];
   rylr689_instance_t radio1 = {
 		  .spiHandle = &hspi1,
 		  .spiReceive = wrapper_spi_receive,
 		  .spiTransmit = wrapper_spi_transmit,
 		  .pinWrite = wrapper_pin_write,
 		  .pinRead = wrapper_pin_read,
-		  .rxBuff = &status,
+		  .rxBuff = status,
 		  .rxBuffSize = RX_BUFF_SIZE,
-		  .txBuff = &status,
+		  .txBuff = status,
 		  .txBuffSize = TX_BUFF_SIZE
   };
 
@@ -187,38 +188,43 @@ int main(void)
 		* 	1: New mail arrived.
 		* 	2: Old plus possibly new mail.
 		* */
+		uint32_t magicNum = MAILBOX_RXTX_MAGIC_NUMBER;
+		/* Place the four-byte magic number in index 1 to 4*/
+		memcpy(radio1.txBuff + 1, &magicNum, sizeof(uint32_t));
+		uint8_t packetSize = sizeof(uint32_t) + 1;
+
 		if(mailboxEmptyInit) { /* Mail is initially empty. */
 			if(!mailboxEmptyFinal) { /* Mail is not empty anymore. */
-				*(radio1.rxBuff) = 1;
+				*(radio1.txBuff) = 1;
 				/* Send "New mail arrived" notification. */
-				rylr689_radio_send(&radio1, 1);
+				rylr689_radio_send(&radio1, packetSize);
 			}
 			else {	/* TESTING ONLY! REMOVE LATER! */
 
 				/* Turn on Built-in LED if false alarm. */
 				HAL_GPIO_WritePin(BUILT_IN_LED_GPIO_Port, BUILT_IN_LED_Pin, GPIO_PIN_RESET);
 				HAL_Delay(1000);
-				*(radio1.rxBuff) = 3;
-				rylr689_radio_send(&radio1, 1);
+				*(radio1.txBuff) = 3;
+				rylr689_radio_send(&radio1, packetSize);
 			}
 			/* Otherwise, do not send any notification.
 			* False alarm.*/
 		}
 		else { /* Mail is initially not empty. */
 			if(mailboxEmptyFinal) { /* Mail is now empty. */
-				*(radio1.rxBuff) = 0;
+				*(radio1.txBuff) = 0;
 				/* Send "Mail taken out" notification. */
-				rylr689_radio_send(&radio1, 1);
+				rylr689_radio_send(&radio1, packetSize);
 			}
 			else { /* Old and possibly new mail inside the mailbox. */
-				*(radio1.rxBuff) = 2;
+				*(radio1.txBuff) = 2;
 				/* Send "Old and possibly new mail" notification. */
-				rylr689_radio_send(&radio1, 1);
+				rylr689_radio_send(&radio1, packetSize);
 			}
 		}
 	}
 
-  enterStandby();
+	enterStandbyWkPin();
 #endif /* #ifdef DEBUG_MODE__ */
   /* USER CODE END 2 */
 
@@ -536,28 +542,34 @@ static void testApp(const rylr689_instance_t *radio, uint8_t mailboxEmptyInit, u
 	* 	 1: New mail arrived.
 	* 	 2: Old plus possibly new mail.
 	* */
+	uint32_t magicNum = MAILBOX_RXTX_MAGIC_NUMBER;
+	/* Place the four-byte magic number in index 1 to 4*/
+	memcpy(radio->txBuff + 1, &magicNum, sizeof(uint32_t));
+	uint8_t packetSize = sizeof(uint32_t) + 1;
+
+	/* Place status in index 0. */
 	if(mailboxEmptyInit) { /* Mail is initially empty. */
 		if(!mailboxEmptyFinal) { /* Mail is not empty anymore. */
-			*(radio->rxBuff) = 1;
+			*(radio->txBuff) = 1;
 			/* Send "New mail arrived" notification. */
-			rylr689_radio_send(radio, 1);
+			rylr689_radio_send(radio, packetSize);
 		}
 		else {
 			/* Turn on Built-in LED if false alarm. */
 			HAL_GPIO_WritePin(BUILT_IN_LED_GPIO_Port, BUILT_IN_LED_Pin, GPIO_PIN_RESET);
-			*(radio->rxBuff) = 3;
-			rylr689_radio_send(radio, 1);
+			*(radio->txBuff) = 3;
+			rylr689_radio_send(radio, packetSize);
 		}
 	}
 	else { /* Mail is initially not empty. */
 		if(mailboxEmptyFinal) { /* Mail is now empty. */
-			*(radio->rxBuff) = 0;
+			*(radio->txBuff) = 0;
 			/* Send "Mail taken out" notification. */
-			rylr689_radio_send(radio, 1);
+			rylr689_radio_send(radio, packetSize);
 		}
 		else { /* Old and possibly new mail inside the mailbox. */
-			*(radio->rxBuff) = 2;
-			rylr689_radio_send(radio, 1);
+			*(radio->txBuff) = 2;
+			rylr689_radio_send(radio, packetSize);
 			/* Send "Old and possibly new mail" notification. */
 		}
 	}

@@ -50,6 +50,7 @@
 
 #define TIME_FORMAT_WIDTH 8 /* HH:MM:SS -> 10 characters. */
 #define DATE_FORMAT_WIDTH 10 /* MM:DD:YYYY -> 10 characters. */
+#define MAILBOX_RXTX_MAGIC_NUMBER 0xDEADBEEFU
 
 /* USER CODE END PD */
 
@@ -220,7 +221,7 @@ int main(void)
 																	  for a CSV file to be that large. So, only the lower 32-bit
 																	  will be used for now. */
 
-			char msgDspBuff[100] = "Error with log file! Performing backup...";
+			char msgDspBuff[50] = "Error with log file! Performing backup...";
 			char *bytesRemHeader = "Bytes remaining: ";
 			char *bytesCopHeader = "Bytes copied: ";
 
@@ -423,6 +424,19 @@ int main(void)
 
 			  /* Fetch packet. */
 			  rylr689_radio_get_packet(&radio1, &packetSizeReceived);
+
+			  /* Packet must be 5 bytes. */
+			  if(packetSizeReceived != sizeof(uint32_t) + 1) {
+				  Error_Handler();
+			  }
+
+			  uint32_t magicVal;
+			  /* Skip first bytes then copy the last four bytes. */
+			  memcpy(&magicVal, radio1.rxBuff + 1, sizeof(uint32_t));
+
+			  if(magicVal != MAILBOX_RXTX_MAGIC_NUMBER) {
+				  Error_Handler();
+			  }
 
 			  getDateTime(&curTime, &curDate);
 			  /* Update date only when it is different. */
