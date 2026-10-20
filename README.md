@@ -1,7 +1,8 @@
 # Mailbox Notification Device Project
 Repository for my wireless-temperature-and-humidity logger project. Code for transmitter and receiver are placed under separate folder, namely "tx-" and "rx-".
+
 The drivers used for all the hardware (STM32, SD card, RYLR689, SH1106 OLED display, and DS3231 RTC) used in this project were all ***customly made*** by **myself**. I did this for educational purpose; to practice reading and understanding datasheets.
-**Keep in mind**, however, that the drivers are **not** perfect; although, I did debugged it the best I can including the use of Logic Analyzer to monitor how the drivers interacted with the hardware. With that said, the custom drivers can be found under "custom-drivers" directory which is linked to a separate repository.
+Therefore, **keep in mind** that the drivers are **not** perfect; however, I did debugged it the best I can including the use of Logic Analyzer to monitor how the drivers interacted with the hardware. With that said, the custom drivers can be found under "custom-drivers" directory which is linked to a separate repository.
 
 **<u>FYI</u>:** This project is currently ***In Progress***.
 <hr>
